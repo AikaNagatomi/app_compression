@@ -1,0 +1,373 @@
+:root {
+  --bg-color: #0f172a;
+  --text-color: #f8fafc;
+  --accent-color: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.5);
+  --success-color: #10b981;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --font-family: 'Outfit', 'Noto Sans JP', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg-color);
+  background-image: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%);
+  color: var(--text-color);
+  overflow: hidden; /* Prevent scrolling */
+  width: 100vw;
+  height: 100vh;
+}
+
+#canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Behind UI */
+}
+
+#canvas-container canvas {
+  display: block;
+}
+
+/* UI Layer */
+#ui-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none; /* Let clicks pass through to canvas if needed, though drag/drop needs it */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-title {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glassmorphism Panel */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 3rem;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto; /* Enable interaction for panels */
+}
+
+/* Drag & drop visual feedback */
+body.drag-over .glass-panel#drop-guide {
+  transform: scale(1.05);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 30px var(--accent-glow);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+#drop-guide .icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite ease-in-out;
+}
+
+#drop-guide p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+#drop-guide .sub-text {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+/* Result Panel */
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.95);
+  pointer-events: none !important;
+}
+
+#result-panel {
+  position: absolute; /* Center exactly */
+}
+
+#result-panel h2 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.stat-box {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  min-width: 120px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.stat-box.highlight {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.1);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+}
+
+.stat-box .label {
+  display: block;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-box .value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.stat-box.highlight .value {
+  color: var(--success-color);
+}
+
+.arrow {
+  font-size: 1.5rem;
+  color: #64748b;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-family: var(--font-family);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(37, 99, 235, 0.4);
+}
+
+.btn.outline {
+  background: transparent;
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn.outline:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Compression Zone Visual */
+#compression-zone-visual {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 1rem;
+  pointer-events: none;
+}
+
+.glow-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--success-color), transparent);
+  box-shadow: 0 0 20px 2px var(--success-color);
+  animation: pulse-glow 2s infinite alternate;
+}
+
+#compression-zone-visual span {
+  font-size: 0.8rem;
+  letter-spacing: 4px;
+  color: var(--success-color);
+  opacity: 0.8;
+  font-weight: 700;
+}
+
+/* Animations */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0% { opacity: 0.5; box-shadow: 0 0 10px 1px var(--success-color); }
+  100% { opacity: 1; box-shadow: 0 0 30px 4px var(--success-color); }
+}
+
+/* 複数ファイル用のリスト */
+.downloads-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  padding-right: 10px;
+}
+
+.downloads-list::-webkit-scrollbar {
+  width: 6px;
+}
+.downloads-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+.downloads-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* Secondary Button */
+.btn.secondary {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: white;
+  box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+}
+
+.btn.secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(139, 92, 246, 0.4);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.action-buttons .btn {
+  margin-bottom: 0;
+}
+
+/* Interactive Download Item */
+.download-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.download-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.file-name {
+  font-weight: bold;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.file-size {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+/* Progress Panel */
+.progress-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.8rem;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.progress-header .name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 0.2rem;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--success-color);
+  width: 0%;
+  transition: width 0.2s ease-out;
+}

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gravity Compressor - 物理演算画像圧縮</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+
+<body>
+  <!-- Matter.js Canvas Container -->
+  <div id="canvas-container"></div>
+
+  <!-- UI Container -->
+  <div id="ui-layer">
+    <!-- Title -->
+    <h1 class="app-title">Gravity Compressor</h1>
+
+    <!-- Drop Guide -->
+    <div id="drop-guide" class="glass-panel">
+      <div class="icon">📥</div>
+      <p>画像をここにドラッグ＆ドロップ</p>
+      <!-- <span class="sub-text">重力で落として圧縮します</span> -->
+    </div>
+
+    <!-- Progress Panel (Hidden by default) -->
+    <div id="progress-panel" class="glass-panel hidden" style="min-width: 320px;">
+      <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">圧縮中... ⏳</h2>
+      <div id="progress-list" style="display: flex; flex-direction: column; gap: 0.8rem;">
+        <!-- Javascript will inject progress bars here -->
+      </div>
+    </div>
+
+    <!-- Result Panel (Hidden by default) -->
+    <div id="result-panel" class="glass-panel hidden">
+      <h2>圧縮完了！ 🎉</h2>
+      <div class="stats">
+        <div class="stat-box">
+          <span class="label">Before</span>
+          <span class="value" id="size-before">-- KB</span>
+        </div>
+        <div class="arrow">➡️</div>
+        <div class="stat-box highlight">
+          <span class="label">After</span>
+          <span class="value" id="size-after">-- KB</span>
+        </div>
+        <div id="downloads-list" class="downloads-list"></div>
+        <div class="action-buttons">
+          <button id="download-zip-btn" class="btn secondary hidden">📦 すべてZIPで保存</button>
+          <button id="reset-btn" class="btn primary">もう一度</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual representation of the compression zone -->
+    <div id="compression-zone-visual">
+      <div class="glow-line"></div>
+      <span>COMPRESSION ZONE</span>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
