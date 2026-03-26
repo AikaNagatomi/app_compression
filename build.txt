@@ -1,0 +1,34 @@
+[36mvite v8.0.0 [32mbuilding client environment for production...[36m[39m
+[2Ktransforming...✓ 8 modules transformed.
+[31m✗[39m Build failed in 49ms
+[31merror during build:
+[31mBuild failed with 1 error:
+
+[plugin vite:esbuild-transpile]
+Error: Failed to load `transformWithEsbuild`. It is deprecated and it now requires esbuild to be installed separately. If you are a package author, please migrate to `transformWithOxc` instead.
+    at transformWithEsbuild (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/vite/dist/node/chunks/node.js:2653:9)
+    at async PluginContextImpl.renderChunk (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/vite/dist/node/chunks/node.js:2705:16)
+    at async plugin (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/rolldown/dist/shared/bindingify-input-options-Cu7pt6SZ.mjs:1211:16)
+    at async plugin.<computed> (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/rolldown/dist/shared/bindingify-input-options-Cu7pt6SZ.mjs:1570:12)
+Caused by:
+  Error: Cannot find package 'esbuild' imported from C:\Users\Owner\Documents\ANTI\app_compression\node_modules\vite\dist\node\chunks\node.js
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'esbuild' imported from C:\Users\Owner\Documents\ANTI\app_compression\node_modules\vite\dist\node\chunks\node.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:256:9)
+      at packageResolve (node:internal/modules/esm/resolve:768:81)
+      at moduleResolve (node:internal/modules/esm/resolve:854:18)
+      at defaultResolve (node:internal/modules/esm/resolve:984:11)
+      at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:780:12)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:704:25)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:687:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:305:38)
+      at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:643:36)
+      at TracingChannel.tracePromise (node:diagnostics_channel:344:14)[31m
+    at aggregateBindingErrorsIntoJsError (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/rolldown/dist/shared/error-CP8smW_P.mjs:48:18)
+    at unwrapBindingResult (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/rolldown/dist/shared/error-CP8smW_P.mjs:18:128)
+    at #build (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/rolldown/dist/shared/rolldown-build-4YnQkA76.mjs:3311:34)
+    at async buildEnvironment (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/vite/dist/node/chunks/node.js:32794:64)
+    at async Object.build (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/vite/dist/node/chunks/node.js:33216:19)
+    at async Object.buildApp (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/vite/dist/node/chunks/node.js:33213:153)
+    at async CAC.<anonymous> (file:///C:/Users/Owner/Documents/ANTI/app_compression/node_modules/vite/dist/node/cli.js:778:3) {
+  errors: [Getter/Setter]
+}[39m
